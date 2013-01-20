@@ -1,0 +1,20 @@
+#!/bin/sh
+tmux new-session -d -s local
+tmux rename-window -t local:1 'local1'
+tmux new-window -t local:2 -n 'local2'
+tmux select-window -t local:1
+
+tmux new-session -d -s plt
+tmux rename-window -t plt:1 'plt1'
+tmux new-window -t plt:2 -n 'plt2'
+tmux new-window -t plt:3 -n 'plt3'
+tmux select-window -t plt:1
+
+tmux new-session -d -s remote
+tmux rename-window -t remote:1 'remote1'
+tmux new-window -t remote:2 -n 'remote2'
+tmux new-window -t remote:3 -n 'remote3'
+tmux new-window -t remote:4 -n 'remote4'
+tmux select-window -t remote:1
+
+tmux -2 attach-session -t local
