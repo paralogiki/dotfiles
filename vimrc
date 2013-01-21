@@ -1,4 +1,4 @@
-runtime! debian.vim
+set nocompatible
 
 if has("syntax")
   syntax on
@@ -29,12 +29,14 @@ map <Leader>snp :set nopaste<CR>
 map <Leader>l :!/usr/bin/env php -l %<CR>
 map <Leader>tp :!tail /var/log/php.log<CR>
 map <Leader>v :tabedit $MYVIMRC<CR>
+map <Leader>q :q<CR>
+map <Leader>wq :wq<CR>
 nmap <Leader>i :set list!<CR>
 imap <Leader>, <c-x><c-o>
 imap <Leader>. <c-x><c-p>
 
 " sets
-set nocompatible
+set hidden " enable hidden buffers
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
 set history=500   " keep 500 lines of command line history
 set ruler   " show the cursor position all the time
@@ -60,6 +62,7 @@ set bg=light
 set splitbelow
 set splitright
 set timeoutlen=500 " 500 ms delay for leader key maybe
+set formatoptions-=cro " disables comment behavoir autowrap, auto on CR
 
 "set tags=./tags; " Set the tag file search order
 set noesckeys " Get rid of the delay when hitting esc!
@@ -79,6 +82,10 @@ imap <c-e> <c-o>$
 " maps
 "map <C-s> <esc>:w<CR>
 "imap <C-s> <esc>:w<CR>
+
+" vmaps
+vnoremap > ><CR>gv 
+vnoremap < <<CR>gv 
 
 command! Q q " Bind :Q to :q
 command! W w " Bind :W to :w
