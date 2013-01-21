@@ -31,6 +31,9 @@ map <Leader>tp :!tail /var/log/php.log<CR>
 map <Leader>v :tabedit $MYVIMRC<CR>
 map <Leader>q :q<CR>
 map <Leader>wq :wq<CR>
+map <Leader>e :e <C-R>=expand("%:p:h") . '/'<CR>
+map <Leader>s :split <C-R>=expand("%:p:h") . '/'<CR>
+map <Leader>sv :vnew <C-R>=expand("%:p:h") . '/'<CR>
 nmap <Leader>i :set list!<CR>
 imap <Leader>, <c-x><c-o>
 imap <Leader>. <c-x><c-p>

@@ -14,7 +14,7 @@ function copyfiles() {
 
 for name in *; do
   target="$HOME/.$name"
-  if [[ $name != 'install.sh' && $name != 'README.md' && $name != 'gitconfig' && $name != 'test' && $name != 'bk' ]]; then
+  if [[ $name != 'install.sh' && $name != 'README.md' && $name != 'gitconfig' && $name != 'bk' ]]; then
     if [ -e "$target" ]; then
       if [ ! -d "$PWD/bk" ]; then
         mkdir "$PWD/bk"
@@ -24,7 +24,6 @@ for name in *; do
         [Yy]* ) rm -r "$target"; copyfiles "$name" "$target";;
         [Nn]* ) echo "skipping $target";;
         [Bb]* ) mv "$target" "$PWD/bk/"; copyfiles "$name" "$target";;
-        [Dd]* ) echo "diffing $target";;
       esac
     else
       copyfiles "$name" "$target"
