@@ -20,7 +20,7 @@ function makebkdir {
 
 for name in *; do
   target="$HOME/.$name"
-  if [[ $name != 'install.sh' && $name != 'README.md' && $name != 'gitconfig' && $name != 'bk' ]]; then
+  if [[ $name != 'install.sh' && $name != 'README.md' && $name != 'gitconfig' && $name != 'bk' && $name != 'conky.png' ]]; then
     if [ -e "$target" ]; then
       menu () {
         read -p "$target exists, overwrite? (Y=yes, N=no, B=backup, D=diff) " yn
