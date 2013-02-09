@@ -1,0 +1,43 @@
+#!/usr/bin/php
+<?
+# Weather underground json call for use in conky
+$apikey='<APIKEY>';
+$test=0;
+if (!$test) {
+  $url='http://api.wunderground.com/api/'.$apikey.'/conditions/hourly/q/CT/Hamden.json';
+  $ch=curl_init();
+  curl_setopt($ch, CURLOPT_URL, $url);
+  curl_setopt($ch, CURLOPT_HEADER, 0);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  $response=curl_exec($ch);
+} else {
+  if (!file_exists('multi.json')) die("No test file, grab one here:\n$url\n");
+  $response=file_get_contents('multi.json');
+}
+$response=json_decode($response);
+$periods=array('1'=>'1','2'=>'2','3'=>'3','12'=>'12','24'=>24);
+$hourly=array();
+$max_len_temp_f=0;
+$max_len_feel_f=0;
+foreach($response->hourly_forecast as $period => $forecast) {
+  if (!isset($periods[$period])) continue;
+  if ($period>24) break;
+  $hourly[$period]['temp_f']=round($forecast->temp->english);
+  $hourly[$period]['feel_f']=round($forecast->feelslike->english);
+  $hourly[$period]['condition']=$forecast->condition;
+  if (strlen($hourly[$period]['temp_f'])>$max_len_temp_f) $max_len_temp_f=strlen($hourly[$period]['temp_f']);
+  if (strlen($hourly[$period]['feel_f'])>$max_len_feel_f) $max_len_feel_f=strlen($hourly[$period]['feel_f']);
+}
+$hourly[0]['temp_f']=round($response->current_observation->temp_f);
+$hourly[0]['feel_f']=round($response->current_observation->feelslike_f);
+$hourly[0]['condition']=$response->current_observation->weather;
+$observation_epoch=$response->current_observation->observation_epoch;
+ksort($hourly);
+print '${alignr}'.date('jM, g:ia', $observation_epoch)." (".date('g:ia').") :Upd\n";
+foreach($hourly as $period => $arr) {
+  $period_out='  0';
+  if ($period>0&&$period<10) $period_out=" +$period";
+  else if ($period>=10) $period_out="+$period";
+  print '${alignr}'."{$arr['condition']} - ".str_pad($arr['temp_f'], $max_len_temp_f, ' ', STR_PAD_LEFT).'/'.str_pad($arr['feel_f'], $max_len_feel_f, ' ', STR_PAD_LEFT)." :$period_out\n";
+}
+?>
