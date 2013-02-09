@@ -15,7 +15,7 @@ augroup file_php
   autocmd FileType php set omnifunc=phpcomplete#CompletePHP
   autocmd FileType php let php_sql_query=1
   autocmd FileType php let php_htmlInStrings=1
-  autocmd FileType php,html,css set ts=2 sw=2 sts=2 et 
+  autocmd FileType php,html,css,ruby set ts=2 sw=2 sts=2 et 
   "autocmd FileType php exe 'set t_kB=' . nr2char(27) . '[Z'
 augroup END
 
@@ -27,6 +27,7 @@ let mapleader = ","
 map <Leader>sp :set paste<CR>
 map <Leader>snp :set nopaste<CR>
 map <Leader>l :!/usr/bin/env php -l %<CR>
+map <Leader>rs :!/usr/bin/env php %<CR>
 map <Leader>tp :!tail /var/log/php.log<CR>
 map <Leader>v :tabedit $MYVIMRC<CR>
 map <Leader>q :q<CR>
@@ -39,7 +40,7 @@ imap <Leader>, <c-x><c-o>
 imap <Leader>. <c-x><c-p>
 
 " sets
-set hidden " enable hidden buffers
+"set hidden " enable hidden buffers
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
 set history=500   " keep 500 lines of command line history
 set ruler   " show the cursor position all the time
@@ -66,6 +67,7 @@ set splitbelow
 set splitright
 set timeoutlen=500 " 500 ms delay for leader key maybe
 set formatoptions-=cro " disables comment behavoir autowrap, auto on CR
+set scrolloff=5 " keep 5 lines above scrolls
 
 "set tags=./tags; " Set the tag file search order
 set noesckeys " Get rid of the delay when hitting esc!

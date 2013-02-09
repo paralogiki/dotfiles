@@ -43,3 +43,8 @@ for name in *; do
     fi
   fi
 done
+
+# Make $HOME/.tmp used by vim for backups/tmp files
+if [ ! -d "$HOME/.tmp" ]
+  mkdir "$HOME/.tmp"
+fi
