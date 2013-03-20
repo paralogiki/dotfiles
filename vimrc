@@ -15,7 +15,9 @@ augroup file_php
   autocmd FileType php set omnifunc=phpcomplete#CompletePHP
   autocmd FileType php let php_sql_query=1
   autocmd FileType php let php_htmlInStrings=1
-  autocmd FileType php,html,css,ruby set ts=2 sw=2 sts=2 et 
+  " need to reset syntax because of lets above
+  autocmd FileType php set syntax=php
+  autocmd FileType php,html,css,ruby set ts=2 sw=2 sts=2 et ai
   "autocmd FileType php exe 'set t_kB=' . nr2char(27) . '[Z'
 augroup END
 
@@ -27,6 +29,7 @@ let mapleader = ","
 map <Leader>sp :set paste<CR>
 map <Leader>snp :set nopaste<CR>
 map <Leader>l :!/usr/bin/env php -l %<CR>
+map <Leader>t :w ~/.tmp/_<CR>:!/usr/bin/env php -l ~/.tmp/_<CR>:!rm ~/.tmp/_<CR>
 map <Leader>rs :!/usr/bin/env php %<CR>
 map <Leader>tp :!tail /var/log/php.log<CR>
 map <Leader>v :tabedit $MYVIMRC<CR>
@@ -45,7 +48,6 @@ set backspace=indent,eol,start " allow backspacing over everything in insert mod
 set history=500   " keep 500 lines of command line history
 set ruler   " show the cursor position all the time
 set showcmd   " display incomplete commands
-set autoindent
 set showmatch
 set nowrap
 set backupdir=~/.tmp
@@ -53,8 +55,6 @@ set directory=~/.tmp " Don't clutter my dirs up with swp and tmp files
 set autoread
 set wmh=0
 set viminfo+=!
-set et
-set sw=2
 set smarttab
 set noincsearch
 set ignorecase smartcase
@@ -68,6 +68,14 @@ set splitright
 set timeoutlen=500 " 500 ms delay for leader key maybe
 set formatoptions-=cro " disables comment behavoir autowrap, auto on CR
 set scrolloff=5 " keep 5 lines above scrolls
+
+" manage list chars
+set listchars=""
+set listchars=tab:▸\
+set listchars+=trail:·
+set listchars+=eol:¬
+set listchars+=extends:◄
+set listchars+=precedes:►
 
 "set tags=./tags; " Set the tag file search order
 set noesckeys " Get rid of the delay when hitting esc!
