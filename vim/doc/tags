@@ -173,3 +173,7 @@ supertab-options	supertab.txt	/*supertab-options*
 supertab-preventcomplete	supertab.txt	/*supertab-preventcomplete*
 supertab-usage	supertab.txt	/*supertab-usage*
 supertab.txt	supertab.txt	/*supertab.txt*
+sparkup-examples	sparkup.txt	/*sparkup-examples*
+sparkup-usage	sparkup.txt	/*sparkup-usage*
+sparkup-introduction	sparkup.txt	/*sparkup-introduction*
+sparkup.txt	sparkup.txt	/*sparkup.txt*

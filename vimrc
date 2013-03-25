@@ -17,7 +17,8 @@ augroup file_php
   autocmd FileType php let php_htmlInStrings=1
   " need to reset syntax because of lets above
   autocmd FileType php set syntax=php
-  autocmd FileType php,html,css,ruby set ts=2 sw=2 sts=2 et ai
+  autocmd FileType php,html,css,ruby,javascript set ts=2 sw=2 sts=2 et ai
+  autocmd FileType php runtime! ftplugin/html/sparkup.vim
   "autocmd FileType php exe 'set t_kB=' . nr2char(27) . '[Z'
 augroup END
 
@@ -95,6 +96,8 @@ imap <c-e> <c-o>$
 " maps
 "map <C-s> <esc>:w<CR>
 "imap <C-s> <esc>:w<CR>
+" instead of 0 going to col1 goto first non-empty
+map 0 ^
 
 " vmaps
 vnoremap > ><CR>gv 
