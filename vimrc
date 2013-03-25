@@ -34,6 +34,7 @@ map <Leader>t :w ~/.tmp/_<CR>:!/usr/bin/env php -l ~/.tmp/_<CR>:!rm ~/.tmp/_<CR>
 map <Leader>rs :!/usr/bin/env php %<CR>
 map <Leader>tp :!tail /var/log/php.log<CR>
 map <Leader>v :tabedit $MYVIMRC<CR>
+map <Leader>o :CommandT<CR>
 map <Leader>q :q<CR>
 map <Leader>wq :wq<CR>
 map <Leader>e :e <C-R>=expand("%:p:h") . '/'<CR>
