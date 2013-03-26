@@ -15,3 +15,6 @@ shopt -s histappend
 
 # Unify histories across screen sessions
 export PROMPT_COMMAND="history -a; history -n"
+
+# Removes output stop <C-s> and start <C-q>
+stty stop undef && stty start undef
