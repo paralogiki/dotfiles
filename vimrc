@@ -70,6 +70,13 @@ set splitright
 set timeoutlen=500 " 500 ms delay for leader key maybe
 set formatoptions-=cro " disables comment behavoir autowrap, auto on CR
 set scrolloff=5 " keep 5 lines above scrolls
+set rulerformat=%30(%=\:b%n%y%m%r%w\ %l,%c%V\ %P%)
+set statusline=%<%f\                     " Filename
+set statusline+=%w%h%m%r                 " Options
+"set statusline+=%{fugitive#statusline()} " Git Hotness
+set statusline+=\ [%{&ff}/%Y]            " Filetype
+set statusline+=\ [%{getcwd()}]          " Current dir
+set statusline+=%=%-14.(%l,%c%V%)\ %p%%  " Right aligned file nav info
 
 " manage list chars
 set listchars=""
@@ -106,6 +113,8 @@ vnoremap < <<CR>gv
 
 command! Q q " Bind :Q to :q
 command! W w " Bind :W to :w
+" change working directory to current file
+cmap cd. lcd %:p:h
 
 " ctrlp ignore
 let g:ctrlp_custom_ignore = {
