@@ -86,6 +86,11 @@ set listchars+=eol:¬
 set listchars+=extends:◄
 set listchars+=precedes:►
 
+" wildignores for command-t
+set wildignore+=*.o,*.obj,.git,.svn,.svn/**
+set wildignore+=*.jpg,*.gif,*.png
+
+
 "set tags=./tags; " Set the tag file search order
 set noesckeys " Get rid of the delay when hitting esc!
 "set grepprg=ack
@@ -116,9 +121,22 @@ command! W w " Bind :W to :w
 " change working directory to current file
 cmap cd. lcd %:p:h
 
-" ctrlp ignore
-let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/]\.(git|hg|svn)$',
-  \ 'file': '\v\.(exe|so|dll|jpg|gif|png|zip|tar|gz)$',
-  \ 'link': 'some_bad_symbolic_links',
-  \ }
+" if we're in gvim
+if has("gui_running")
+  set guioptions-=T
+  set guioptions-=m
+  set lines=999 columns=999
+  colorscheme darkspectrum
+endif
+
+" Enable 256 color and switch to darkspectrum and remove background for
+" transparency requires CSAprox and after/plugins/plt.vim
+if !has('gui_running')
+  set t_Co=256
+  colorscheme darkspectrum
+  if exists('did_plt_vim_after') && !has('gui_running') && exists(':CSApprox')
+    CSApprox
+    hi Normal ctermbg=None
+    hi NonText ctermbg=None
+  endif
+endif
