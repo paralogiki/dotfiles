@@ -14,46 +14,47 @@ class ShellCode(NoneditableTextObject):
         NoneditableTextObject.__init__(self, parent, token)
 
         self._code = token.code.replace("\\`", "`")
+        self._tmpdir = self._get_tmp()
+
+    def _chomp(self, string):
+        if len(string) and string[-1] == '\n':
+            string = string[:-1]
+        if len(string) and string[-1] == '\r':
+            string = string[:-1]
+        return string
+
+    def _run(self, cmd, tmpdir):
+        # Write the code to a temporary file
+        handle, path = tempfile.mkstemp(text=True, dir=tmpdir)
+        os.write(handle, cmd.encode("utf-8"))
+        os.close(handle)
+        os.chmod(path, stat.S_IRWXU)
+
+        # Execute the file and read stdout
+        proc = subprocess.Popen(path, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        proc.wait()
+        stdout, stderr = proc.communicate()
+
+        os.unlink(path)
+        return self._chomp(stdout.encode('utf-8'))
+
+    def _get_tmp(self):
+        # find an executable tmp directory
+        userdir = os.path.expanduser("~")
+        for testdir in [tempfile.gettempdir(), os.path.join(userdir, '.cache'), os.path.join(userdir, '.tmp'), userdir]:
+            if not os.path.exists(testdir) or not self._run('echo success', testdir) == 'success':
+                continue
+            return testdir
+        return ''
 
     def _update(self, done, not_done):
-        # Write the code to a temporary file
-        userdir = os.path.expanduser("~")
-        output = ''
-        stderr = ''
-        for tmpdir in [tempfile.gettempdir(),userdir+'/.cache',userdir+'/.tmp',userdir]:
-          if os.path.exists(tmpdir) == 0:
-            continue;
-          handle, path = tempfile.mkstemp(text=True,dir=tmpdir)
-          os.write(handle, self._code.encode("utf-8"))
-          os.close(handle)
-          os.chmod(path, stat.S_IRWXU)
+        if self._tmpdir == '':
+            output = "Unable to find executable tmp directory, check noexec on /tmp"
+        else:
+            output = self._run(self._code, self._tmpdir)
 
-          # Execute the file and read stdout
-          proc = subprocess.Popen(path, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-          proc.wait()
-          stdout, stderr = proc.communicate()
-          if len(stdout) == 0 and len(stderr) > 0:
-            continue
-          output = as_unicode(stdout)
-
-          if len(output) and output[-1] == '\n':
-              output = output[:-1]
-          if len(output) and output[-1] == '\r':
-              output = output[:-1]
-
-          os.unlink(path)
-
-        if len(output) == 0:
-          output = "Error '" + self._code.encode('utf-8') + "' returned empty result" 
-          if len(stderr) > 0:
-            if len(stderr) and stderr[-1] == '\n':
-                stderr = stderr[:-1]
-            if len(stderr) and stderr[-1] == '\r':
-                stderr = stderr[:-1]
-            output += ", stderr: " + stderr
         self.overwrite(output)
         self._parent._del_child(self)
 
         return True
-
 
