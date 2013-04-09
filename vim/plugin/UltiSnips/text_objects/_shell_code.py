@@ -4,15 +4,23 @@
 import os
 import subprocess
 import stat
+import platform
 import tempfile
 
 from UltiSnips.compatibility import as_unicode
 from UltiSnips.text_objects._base import NoneditableTextObject
 
+def _chomp(string):
+    if len(string) and string[-1] == '\n':
+        string = string[:-1]
+    if len(string) and string[-1] == '\r':
+        string = string[:-1]
+    return string
+
 def _run_shell_command(cmd, tmpdir):
     # Write the code to a temporary file
     cmdsuf = ''
-    if os.name == 'nt':
+    if platform.system() == 'Windows':
         # suffix required to run command on windows
         cmdsuf = '.bat'
         # turn echo off 
@@ -28,7 +36,7 @@ def _run_shell_command(cmd, tmpdir):
     stdout, stderr = proc.communicate()
 
     os.unlink(path)
-    return stdout.encode('utf-8').rstrip()
+    return _chomp(stdout.encode('utf-8'))
 
 def _get_tmp():
     # find an executable tmp directory
