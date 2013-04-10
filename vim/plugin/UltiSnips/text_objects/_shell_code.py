@@ -2,15 +2,16 @@
 # encoding: utf-8
 
 import os
+import platform
 import subprocess
 import stat
-import platform
 import tempfile
 
 from UltiSnips.compatibility import as_unicode
 from UltiSnips.text_objects._base import NoneditableTextObject
 
 def _chomp(string):
+    # rather than rstrip(), remove only the last newline and preserve purposeful whitespace
     if len(string) and string[-1] == '\n':
         string = string[:-1]
     if len(string) and string[-1] == '\r':
