@@ -11,7 +11,7 @@ from UltiSnips.compatibility import as_unicode
 from UltiSnips.text_objects._base import NoneditableTextObject
 
 def _chomp(string):
-    # rather than rstrip(), remove only the last newline and preserve purposeful whitespace
+    """Rather than rstrip(), remove only the last newline and preserve purposeful whitespace"""
     if len(string) and string[-1] == '\n':
         string = string[:-1]
     if len(string) and string[-1] == '\r':
@@ -19,7 +19,7 @@ def _chomp(string):
     return string
 
 def _run_shell_command(cmd, tmpdir):
-    # Write the code to a temporary file
+    """Write the code to a temporary file"""
     cmdsuf = ''
     if platform.system() == 'Windows':
         # suffix required to run command on windows
@@ -40,7 +40,7 @@ def _run_shell_command(cmd, tmpdir):
     return _chomp(stdout.encode('utf-8'))
 
 def _get_tmp():
-    # find an executable tmp directory
+    """Find an executable tmp directory"""
     userdir = os.path.expanduser("~")
     for testdir in [tempfile.gettempdir(), os.path.join(userdir, '.cache'), os.path.join(userdir, '.tmp'), userdir]:
         if not os.path.exists(testdir) or not _run_shell_command('echo success', testdir) == 'success':
