@@ -12,12 +12,12 @@ autocmd bufwritepost .vimrc source $MYVIMRC
 augroup file_php
   autocmd!
   "autocmd FileType php set tags=./tags
-  autocmd FileType php set local omnifunc=phpcomplete#CompletePHP
+  autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
   autocmd FileType php let php_sql_query=1
   autocmd FileType php let php_htmlInStrings=1
   " need to reset syntax because of lets above
-  autocmd FileType php set local syntax=php
-  autocmd FileType php,html,css,ruby,javascript set local ts=2 sw=2 sts=2 et ai
+  autocmd FileType php setlocal syntax=php
+  autocmd FileType php,html,css,ruby,javascript setlocal ts=2 sw=2 sts=2 et ai
   autocmd FileType php runtime! ftplugin/html/sparkup.vim
   "autocmd FileType php exe 'set t_kB=' . nr2char(27) . '[Z'
 augroup END
