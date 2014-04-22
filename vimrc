@@ -56,7 +56,7 @@ imap <Leader>, <c-x><c-o>
 imap <Leader>. <c-x><c-p>
 imap <Leader>z <c-y>,
 
-nmap :ed :edit %:p:h/
+nmap - :NERDTreeToggle<CR>
 
 iabbrev pf public function
 iabbrev fer for($x=0;$row=@pg_fetch_assoc($res, $x);$x++)
