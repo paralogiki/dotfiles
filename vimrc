@@ -1,4 +1,5 @@
 set nocompatible
+set enc=utf-8
 
 if has("syntax")
   syntax on
@@ -28,6 +29,8 @@ augroup coloring
 augroup END
 
 " lets
+let g:ctrlp_working_path_mode = 'a'
+let g:ctrlp_custom_ignore = 'vendor'
 let g:SuperTabClosePreviewOnPopupClose = 1
 let mapleader = ","
 
@@ -35,12 +38,14 @@ let mapleader = ","
 map <Leader>sp :set paste<CR>
 map <Leader>snp :set nopaste<CR>
 map <Leader>l :!/usr/bin/env php -l %<CR>
+map <Leader>lr :!php artisan route<cr>
 map <Leader>t :w ~/.tmp/_<CR>:!/usr/bin/env php -l ~/.tmp/_<CR>:!rm ~/.tmp/_<CR>
 map <Leader>rs :!/usr/bin/env php %<CR>
 map <Leader>tp :!tail /var/log/php.log<CR>
 map <Leader>v :tabedit $MYVIMRC<CR>
 map <Leader>n :set number!<CR>
-map <Leader>o :CommandT<CR>
+map <Leader>o :CtrlP<CR>
+map <Leader>b :CtrlPBuffer<CR>
 map <Leader>q :q<CR>
 map <Leader>wq :wq<CR>
 map <Leader>e :e <C-R>=expand("%:p:h") . '/'<CR>
@@ -49,9 +54,16 @@ map <Leader>sv :vnew <C-R>=expand("%:p:h") . '/'<CR>
 nmap <Leader>i :set list!<CR>
 imap <Leader>, <c-x><c-o>
 imap <Leader>. <c-x><c-p>
+imap <Leader>z <c-y>,
+
+nmap :ed :edit %:p:h/
+
+iabbrev pf public function
+iabbrev fer for($x=0;$row=@pg_fetch_assoc($res, $x);$x++)
 
 " sets
 "set hidden " enable hidden buffers
+set relativenumber
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
 set history=500   " keep 500 lines of command line history
 set ruler   " show the cursor position all the time
@@ -94,8 +106,10 @@ set listchars+=extends:◄
 set listchars+=precedes:►
 
 " wildignores for command-t
-set wildignore+=*.o,*.obj,.git,.svn,vendor/**
+set wildignore+=*.o,*.obj,.git,.svn,*/vendor/**
 set wildignore+=*.jpg,*.gif,*.png
+set wildmode=full
+set wildmenu
 
 
 "set tags=./tags; " Set the tag file search order
